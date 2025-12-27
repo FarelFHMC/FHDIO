@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FHDIO Video Platform</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        /* ===== LOGIN WRAPPER ===== */
+        .login-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BRAND SECTION ===== */
+        .brand-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 3rem;
+            color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            background: #f5f7ff;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== FORM STYLES ===== */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group label i {
+            color: #667eea;
+            width: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e1e5f1;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: #fafbff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+
+        /* ===== FORM OPTIONS ===== */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: #667eea;
+        }
+
+        .forgot-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #20bf6b, #26de81);
+            color: white;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(32, 191, 107, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn-loader {
+            display: none;
+        }
+
+        /* ===== TERMS NOTICE ===== */
+        .terms-notice {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .terms-notice a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .terms-notice a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #999;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e1e5f1;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== GUEST SECTION ===== */
+        .guest-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .guest-section p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        /* ===== MESSAGES ===== */
+        .message-container {
+            margin-top: 20px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .message.error {
+            background: #ffeaea;
+            color: #ff4757;
+            border-left: 4px solid #ff4757;
+        }
+
+        .message.success {
+            background: #eaffea;
+            color: #20bf6b;
+            border-left: 4px solid #20bf6b;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer i {
+            color: #ff4757;
+            margin: 0 5px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-wrapper {
+                padding: 30px 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <!-- Logo/Brand -->
+            <div class="brand-section">
+                <div class="logo">
+                    <i class="fas fa-video"></i>
+                    <h1>FHDIO</h1>
+                </div>
+                <p class="tagline">Platform berbagi video sederhana</p>
+            </div>
+
+            <!-- Tabs untuk Login/Register -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label for="loginEmail">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="loginEmail" 
+                            placeholder="email@contoh.com" 
+                            required
+                            autocomplete="email"
+                        >
+                        <div class="error-message" id="loginEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            placeholder="Password" 
+                            required
+                            autocomplete="current-password"
+                        >
+                        <div class="error-message" id="loginPasswordError"></div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Ingat saya</span>
+                        </label>
+                        <a href="#" class="forgot-link">Lupa password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                        <span class="btn-text">Login</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerEmail">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input 
+                            type="email" 
+                            id="registerEmail" 
+                            placeholder="email@contoh.com" 
+                            required
+                            autocomplete="email"
+                        >
+                        <div class="error-message" id="registerEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input 
+                            type="password" 
+                            id="registerPassword" 
+                            placeholder="Password (min. 6 karakter)" 
+                            required
+                            autocomplete="new-password"
+                            minlength="6"
+                        >
+                        <div class="error-message" id="registerPasswordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            <i class="fas fa-lock"></i> Konfirmasi Password
+                        </label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            placeholder="Ulangi password" 
+                            required
+                            autocomplete="new-password"
+                        >
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="terms-notice">
+                        <p>Dengan mendaftar, Anda menyetujui <a href="#">Syarat & Ketentuan</a> kami.</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block" id="registerBtn">
+                        <span class="btn-text">Buat Akun</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>atau</span>
+            </div>
+
+            <!-- Guest Option -->
+            <div class="guest-section">
+                <p>Lanjutkan sebagai tamu?</p>
+                <button class="btn btn-outline" id="guestBtn">
+                    <i class="fas fa-eye"></i> Lihat Video Tanpa Login
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div class="message-container">
+                <div id="errorMessage" class="message error" style="display: none;"></div>
+                <div id="successMessage" class="message success" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2024 FHDIO Video Platform. Dibuat dengan <i class="fas fa-heart"></i></p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module">
+        // ==============================================
+        // FIREBASE CONFIGURATION - GANTI INI DENGAN MILIK ANDA!
+        // ==============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDN3fZff3tkXuHdrPnmOmqhkcbkrwqx8v0",
+            authDomain: "aiprotokol.firebaseapp.com",
+            projectId: "aiprotokol",
+            storageBucket: "aiprotokol.firebasestorage.app",
+            messagingSenderId: "903559942648",
+            appId: "1:903559942648:web:274cd35c18b1c060f5860d",
+            measurementId: "G-RXDSX940Z7"
+        };
+
+        // Import Firebase SDK dari CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ==============================================
+        // UI LOGIC - TAB SWITCHING & VALIDATION
+        // ==============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const authForms = document.querySelectorAll('.auth-form');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Show active form
+                    authForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === `${tabId}Form`) {
+                            form.classList.add('active');
+                        }
+                    });
+                    
+                    // Clear messages
+                    document.getElementById('errorMessage').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'none';
+                });
+            });
+            
+            // Password validation
+            const registerPassword = document.getElementById('registerPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+            
+            function validatePasswords() {
+                const password = registerPassword.value;
+                const confirm = confirmPassword.value;
+                const errorEl = document.getElementById('confirmPasswordError');
+                
+                if (confirm && password !== confirm) {
+                    errorEl.textContent = 'Password tidak cocok';
+                    return false;
+                } else {
+                    errorEl.textContent = '';
+                    return true;
+                }
+            }
+            
+            confirmPassword.addEventListener('input', validatePasswords);
+            registerPassword.addEventListener('input', validatePasswords);
+        });
+
+        // ==============================================
+        // UTILITY FUNCTIONS
+        // ==============================================
+        function showMessage(element, message, type = 'error') {
+            element.textContent = message;
+            element.style.display = 'block';
+            
+            if (type === 'error') {
+                document.getElementById('successMessage').style.display = 'none';
+            } else {
+                document.getElementById('errorMessage').style.display = 'none';
+            }
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        function showLoading(button) {
+            const btnText = button.querySelector('.btn-text');
+            const btnLoader = button.querySelector('.btn-loader');
+            
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'block';
+            button.disabled = true;
+        }
+
+        function hideLoading(button) {
+            const btnText = button.querySelector('.btn-text');
+            const btnLoader = button.querySelector('.btn-loader');
+            
+            btnText.style.display = 'block';
+            btnLoader.style.display = 'none';
+            button.disabled = false;
+        }
+
+        function clearErrorMessages() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => el.textContent = '');
+        }
+
+        // ==============================================
+        // CREATE USER DOCUMENT IN FIRESTORE
+        // ==============================================
+        async function createUserDocument(user) {
+            try {
+                const userRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+                
+                // Hanya buat jika belum ada
+                if (!userDoc.exists()) {
+                    await setDoc(userRef, {
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.email.split('@')[0], // Username default dari email
+                        photoURL: '', // Kosong awalnya
+                        createdAt: new Date().toISOString(),
+                        bio: '',
+                        totalVideos: 0,
+                        totalComments: 0
+                    });
+                    console.log("User document created successfully");
+                }
+            } catch (error) {
+                console.error("Error creating user document:", error);
+                throw error;
+            }
+        }
+
+        // ==============================================
+        // LOGIN FUNCTION
+        // ==============================================
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                
+                // Clear previous errors
+                clearErrorMessages();
+                
+                // Validation
+                if (!email || !password) {
+                    showMessage(document.getElementById('errorMessage'), "Email dan password harus diisi", 'error');
+                    return;
+                }
+                
+                try {
+                    showLoading(loginBtn);
+                    
+                    // Firebase Login
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    showMessage(document.getElementById('successMessage'), `Login berhasil! Selamat datang ${user.email}`, 'success');
+                    
+                    // Persist session jika remember me dicentang
+                    if (rememberMe) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+                    
+                    // Redirect ke dashboard setelah 1.5 detik
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error("Login error:", error);
+                    
+                    let errorMsg = "Terjadi kesalahan saat login";
+                    
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            errorMsg = "Format email tidak valid";
+                            break;
+                        case 'auth/user-disabled':
+                            errorMsg = "Akun ini telah dinonaktifkan";
+                            break;
+                        case 'auth/user-not-found':
+                            errorMsg = "Email tidak terdaftar";
+                            break;
+                        case 'auth/wrong-password':
+                            errorMsg = "Password salah";
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMsg = "Terlalu banyak percobaan gagal. Coba lagi nanti";
+                            break;
+                        default:
+                            errorMsg = error.message;
+                    }
+                    
+                    showMessage(document.getElementById('errorMessage'), errorMsg, 'error');
+                } finally {
+                    hideLoading(loginBtn);
+                }
+            });
+        }
+
+        // ==============================================
+        // REGISTER FUNCTION
+        // ==============================================
+        const registerForm = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                // Clear previous errors
+                clearErrorMessages();
+                
+                // Validation
+                if (!email || !password || !confirmPassword) {
+                    showMessage(document.getElementById('errorMessage'), "Semua field harus diisi", 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showMessage(document.getElementById('errorMessage'), "Password minimal 6 karakter", 'error');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showMessage(document.getElementById('errorMessage'), "Password tidak cocok", 'error');
+                    return;
+                }
+                
+                try {
+                    showLoading(registerBtn);
+                    
+                    // Firebase Register
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    // Create user document di Firestore
+                    await createUserDocument(user);
+                    
+                    showMessage(document.getElementById('successMessage'), `Registrasi berhasil! Akun untuk ${user.email} telah dibuat`, 'success');
+                    
+                    // Auto login setelah registrasi
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error("Register error:", error);
+                    
+                    let errorMsg = "Terjadi kesalahan saat registrasi";
+                    
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            errorMsg = "Email sudah terdaftar";
+                            break;
+                        case 'auth/invalid-email':
+                            errorMsg = "Format email tidak valid";
+                            break;
+                        case 'auth/operation-not-allowed':
+                            errorMsg = "Registrasi dengan email/password tidak diizinkan";
+                            break;
+                        case 'auth/weak-password':
+                            errorMsg = "Password terlalu lemah";
+                            break;
+                        default:
+                            errorMsg = error.message;
+                    }
+                    
+                    showMessage(document.getElementById('errorMessage'), errorMsg, 'error');
+                } finally {
+                    hideLoading(registerBtn);
+                }
+            });
+        }
+
+        // ==============================================
+        // GUEST MODE
+        // ==============================================
+        const guestBtn = document.getElementById('guestBtn');
+        
+        if (guestBtn) {
+            guestBtn.addEventListener('click', () => {
+                showMessage(document.getElementById('successMessage'), "Mode tamu aktif. Anda hanya dapat melihat video", 'success');
+                
+                // Store guest mode in session storage
+                sessionStorage.setItem('guestMode', 'true');
+                
+                // Redirect setelah 1 detik
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            });
+        }
+
+        // ==============================================
+        // CHECK AUTH STATE
+        // ==============================================
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User sudah login, redirect ke dashboard
+                if (!window.location.href.includes('dashboard.html')) {
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                // User tidak login, cek guest mode
+                if (sessionStorage.getItem('guestMode') === 'true' && window.location.href.includes('dashboard.html')) {
+                    // Biarkan tamu tetap di dashboard
+                }
+                // Kalau tidak, tetap di halaman login
+            }
+        });
+
+        // ==============================================
+        // FORGOT PASSWORD (SIMPLE VERSION)
+        // ==============================================
+        document.querySelector('.forgot-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = prompt("Masukkan email Anda untuk reset password:");
+            if (email) {
+                // Firebase reset password (butuh import sendPasswordResetEmail)
+                showMessage(document.getElementById('successMessage'), 
+                    "Fitur reset password belum diimplementasi. Hubungi admin.", 
+                    'success'
+                );
+            }
+        });
+    </script>
+</body>
+</html>
